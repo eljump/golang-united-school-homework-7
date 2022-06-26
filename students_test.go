@@ -51,6 +51,8 @@ func TestPeople_Less(t *testing.T) {
 	people = append(people, Person{"Base", "Zero", now})
 	people = append(people, Person{"Plus", "1Day", now.Add(24 * time.Hour)})
 	people = append(people, Person{"Minus", "2Days", now.Add(-48 * time.Hour)})
+	people = append(people, Person{"Ase", "Zero", now})
+	people = append(people, Person{"Ase", "Zero11", now})
 
 	if people.Less(0, 1) {
 		t.Errorf("Return true, but must return false")
@@ -61,6 +63,14 @@ func TestPeople_Less(t *testing.T) {
 	}
 
 	if !people.Less(1, 2) {
+		t.Errorf("Return false, but must return true")
+	}
+
+	if people.Less(0, 3) {
+		t.Errorf("Return false, but must return true")
+	}
+
+	if !people.Less(3, 4) {
 		t.Errorf("Return false, but must return true")
 	}
 }
@@ -81,8 +91,11 @@ func TestPeople_Swap(t *testing.T) {
 		t.Errorf("People Swap is wrong")
 	}
 }
+
+const testStr = "1 1 1 \n 2 2 2"
+
 func TestGoodMatrix_New(t *testing.T) {
-	matrix, err := New("1 1 1 \n 2 2 2")
+	matrix, err := New(testStr)
 
 	if err != nil {
 		t.Errorf("Something wrong")
@@ -119,7 +132,7 @@ func TestBadMatrix_New(t *testing.T) {
 }
 
 func TestMatrix_Rows(t *testing.T) {
-	matrix, _ := New("1 1 1 \n 2 2 2")
+	matrix, _ := New(testStr)
 
 	res := [][]int{{1, 1, 1}, {2, 2, 2}}
 
@@ -129,7 +142,7 @@ func TestMatrix_Rows(t *testing.T) {
 }
 
 func TestMatrix_Cols(t *testing.T) {
-	matrix, _ := New("1 1 1 \n 2 2 2")
+	matrix, _ := New(testStr)
 
 	res := [][]int{{1, 2}, {1, 2}, {1, 2}}
 
@@ -139,7 +152,7 @@ func TestMatrix_Cols(t *testing.T) {
 }
 
 func TestMatrix_Set(t *testing.T) {
-	matrix, _ := New("1 1 1 \n 2 2 2")
+	matrix, _ := New(testStr)
 
 	if matrix.Set(-1, 0, 5) {
 		t.Errorf("Something wrong, matrix.Set(-1, 0, 5) return true")
