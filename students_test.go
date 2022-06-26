@@ -51,6 +51,8 @@ func TestPeople_Less(t *testing.T) {
 	people = append(people, Person{"Base", "Zero", now})
 	people = append(people, Person{"Plus", "1Day", now.Add(24 * time.Hour)})
 	people = append(people, Person{"Minus", "2Days", now.Add(-48 * time.Hour)})
+	people = append(people, Person{"Ase", "Zero", now})
+	people = append(people, Person{"Ase", "Zero1", now})
 
 	if people.Less(0, 1) {
 		t.Errorf("Return true, but must return false")
@@ -61,6 +63,14 @@ func TestPeople_Less(t *testing.T) {
 	}
 
 	if !people.Less(1, 2) {
+		t.Errorf("Return false, but must return true")
+	}
+
+	if people.Less(0, 3) {
+		t.Errorf("Return false, but must return true")
+	}
+
+	if !people.Less(3, 4) {
 		t.Errorf("Return false, but must return true")
 	}
 }
